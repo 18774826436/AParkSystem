@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="GBK">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/imust/LocalConfig.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/imust/controller/ParkController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/css/404.css" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/css/slide_share.css" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/QQ.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/QQ_QR.jpg" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/WeChat.jpg" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/batman-404.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/halo1.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/halo2.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/icon_email.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/icon_location.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/icon_project-planner.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/licht.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/logo211.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/qqdq.jpg" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/images/wand.jpg" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/js/hm.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/js/jquery.min.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/js/scriptalizer.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/static/moban/js/share.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/404.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/500.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/Contactus.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/WeChat.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/admin/login.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/detail.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/detail2.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/index.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/join.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/list.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/myMessage.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/notice-detail.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/orderList.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/password.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/qq.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/register-ok.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/tips.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/templates/user-show.html" charset="GBK" />
+  </component>
+</project>

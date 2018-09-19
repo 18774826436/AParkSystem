@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/moban/css/index.css}"/>
+	<link rel="stylesheet" th:href="@{/moban/css/table.css}"/>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+	<script th:src="@{/moban/js/jquery-1.7.2.min.js}"></script>
+	<script th:src="@{/moban/js/main.js}"></script>
+	<script type="text/javascript" th:src="@{/lib/My97DatePicker/4.8/WdatePicker.js}"></script>
+	<title>寻找周边</title>
+	<style type="text/css">
+		#allmap {height: 400px;width:100%;overflow: hidden;}
+		<!--#result {width:100%;font-size:12px;}-->
+		.BMap_cpyCtrl
+		{
+			display:none;
+		}
+		.anchorBL{
+			display:none;
+		}
+
+	</style>
+</head>
+<body >
+
+<span th:replace="/common/head2 :: header"></span>
+
+<div class="main">
+	<div class="container clearfix">
+		<div class="bread">当前位置：
+			<a href="/index">首页</a> >
+			<a href="#">寻找周边</a>
+		</div>
+		<div class="main-left fl clearfix" >
+			<div class="zoom-wrap fl" style="width:570px">
+				<div id="allmap">	
+				</div>
+			</div>
+			<div class="attr fl" style="width:400px" hidden="hidden" id="f1">
+				<p>停车场</p>
+				<p>地址：<span id="addr"></span></p>
+				<p>经度：<span id="lng"></span></p>
+				<p>纬度：<span id="lat"></span></p>
+				<p>价格：25-50/时<span ></span></p>
+				<p th:text="'闲置车位/总车位：'+${count}+'/'+${carNum}"><span ></span></p>
+				<a  href="/car/car-select" class="pay" onclick="sendMeg(this)">选择车位</a>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+	</div>
+</div>
+
+<span th:replace="/common/foot :: footer"></span>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=42b8ececa9cd6fe72ae4cddd77c0da5d"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+	
+<script type="text/javascript">
+
+
+function sendMeg(id)
+{
+setCookie("lng",document.getElementById('lng').value);
+setCookie("lat",document.getElementById('lat').value);
+}
+
+function setCookie(name,value)
+{
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days*24*60*60*1000);
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+
+	var map = new BMap.Map("allmap");            // 创建Map实例
+    var point;
+    var geolocation = new BMap.Geolocation();
+	var geoc = new BMap.Geocoder();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);//添加显示用户位置的 标志
+			mpoint = new BMap.Point(r.point.lng,r.point.lat);
+			map.centerAndZoom(mpoint,15);//创建以该经纬度为中心的地图
+			map.setMapStyle({style:'hardedge'});
+			window.openInfoWinFuns = null;
+    var options = {
+    onSearchComplete: function(results){
+    // 判断状态是否正确
+    if (local.getStatus() == BMAP_STATUS_SUCCESS){
+        openInfoWinFuns = [];
+        for (var i = 0; i < results.getCurrentNumPois(); i ++){
+            var marker = addMarker(results.getPoi(i).point,i);
+            var openInfoWinFun = addInfoWindow(marker,results.getPoi(i),i);
+            openInfoWinFuns.push(openInfoWinFun);
+            // 默认打开第一标注的信息窗口
+            var selected = "";
+            if(i == 0){
+                selected = "background-color:#f0f0f0;";
+                openInfoWinFun();
+            }
+        }
+    }else{
+    	$("#allmap").empty();
+        $("#allmap").append("检索没有结果，原因: " + result);
+    }
+    }
+    };
+// 添加标注
+    function addMarker(point, index){
+         var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {
+         offset: new BMap.Size(10, 25),
+         imageOffset: new BMap.Size(0, 0 - index * 25)
+     });
+    var marker = new BMap.Marker(point, {icon: myIcon});
+    map.addOverlay(marker);
+    function attribute(){
+		 var p = marker.getPosition();  //获取marker的位置
+		 //var t = new BMap.Point(p.lng,p.lat);
+         //var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: true}});
+		 //driving.search(mpoint, t);
+		 geoc.getLocation(p, function(rs){
+			var addComp = rs.addressComponents;
+			document.getElementById("f1").removeAttribute("hidden");
+			document.getElementById("lng").value=p.lng;
+			document.getElementById("lng").innerHTML=p.lng;
+			document.getElementById("lat").value=p.lat;
+			document.getElementById("lat").innerHTML=p.lat;
+			//$(".f1").removeAttr("hidden");
+			document.getElementById("addr").innerHTML=addComp.province +  addComp.city +  addComp.district +  addComp.street;
+			//alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+		 });
+	}
+    marker.addEventListener("click",attribute);
+    return marker;
+    }
+// 添加信息窗口
+
+    function addInfoWindow(marker,poi,index){
+    var maxLen = 10;
+    var name = null;
+    if(poi.type == BMAP_POI_TYPE_NORMAL){
+        name = "地址：  "
+    }else if(poi.type == BMAP_POI_TYPE_BUSSTOP){
+        name = "公交：  "
+    }else if(poi.type == BMAP_POI_TYPE_SUBSTOP){
+        name = "地铁：  "
+    }
+
+    // infowindow的标题
+    var infoWindowTitle = '<div style="font-weight:bold;color:#CE5521;font-size:14px">'+poi.title+'</div>';
+    // infowindow的显示信息
+    var infoWindowHtml = [];
+    infoWindowHtml.push('<table cellspacing="0" style="table-layout:fixed;width:100%;font:12px arial,simsun,sans-serif"><tbody>');
+    infoWindowHtml.push('<tr>');
+    infoWindowHtml.push('<td style="vertical-align:top;line-height:16px;width:38px;white-space:nowrap;word-break:keep-all">' + name + '</td>');
+    infoWindowHtml.push('<td style="vertical-align:top;line-height:16px">' + poi.address +  ' </td>');
+    infoWindowHtml.push('</tr>');
+    infoWindowHtml.push('</tbody></table>');
+    var infoWindow = new BMap.InfoWindow(infoWindowHtml.join(""),{title:infoWindowTitle,width:200});
+    var openInfoWinFun = function(){
+        marker.openInfoWindow(infoWindow);
+        for(var cnt = 0; cnt < maxLen; cnt++){
+            if(!document.getElementById("list" + cnt)){continue;}
+            if(cnt == index){
+                document.getElementById("list" + cnt).style.backgroundColor = "#f0f0f0";
+            }else{
+                document.getElementById("list" + cnt).style.backgroundColor = "#fff";
+            }
+        }
+    }
+    marker.addEventListener("click", openInfoWinFun);
+    return openInfoWinFun;
+    }
+	var circle = new BMap.Circle(mpoint,1000,{fillColor:"gray", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
+    map.addOverlay(circle);
+    var local = new BMap.LocalSearch(map, options);
+    local.searchNearby("停车场",mpoint,1000);
+	}
+	else {
+        map.centerAndZoom(mpoint,15);
+	}
+	},{enableHighAccuracy: true})
+
+</script>
+</body>
+</html>

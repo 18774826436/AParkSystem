@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/moban/css/index.css}"/>
+    <link rel="stylesheet" th:href="@{/moban/css/table.css}"/>
+	<script th:src="@{/moban/js/jquery-1.11.2.min.js}"></script>
+	<script th:src="@{/moban/js/main.js}"></script>
+	<style>
+		a.weixin{
+			position:relative;
+		}
+		.weixin::after{
+			content: url(/moban/images/WeChat.jpg);
+			position: absolute;
+			right: -28px;
+			top: -135px;
+			z-index: 99;
+			width:120px;
+			height: 120px;
+			border: 5px solid #0095ba;
+			border-radius: 4px;
+			transform-origin: top right;
+			transform: scale(0);
+			opacity: 0;
+			-webkit-transition: all .4s ease-in-out;
+			-o-transition: all .4s ease-in-out;
+			transition: all .4s ease-in-out;
+		}
+		.weixin:hover::after{
+			transform:scale(1);
+			opacity: 1;
+		}
+
+	</style>
+
+	<title>我的订单</title>
+</head>
+<style>
+
+
+</style>
+<body >
+
+<span th:replace="/common/head2 :: header"></span>
+
+<div class="help-wrap">
+	<div class="container clearfix">
+		<div class="bread">当前位置：
+			<a href="#">首页</a> >
+			<a href="#">订单管理</a> >
+			<a href="#">我的订单</a>
+		</div>
+		<span th:replace="/common/userinfo :: userer"></span>
+		<div class="help-r fr">
+			<div class="help-item-title">已预订车位</div>
+			<div class="help-main">
+				<table class="table table-hover" th:if="${orderList}">
+				<thead>
+					<tr >
+			        <th>订单编号</th>
+			        <th>下单时间</th>
+			        <th>车牌号</th>
+			        <th>车位编号</th>
+			        <th>车位价格</th>
+			        <th>应付金额</th>
+			        <th>状态</th>
+			        <th>操作</th>
+			      </tr>
+			      <tr>
+			        
+			      <tr th:each="order,orderStat : ${orderList}">
+				      <td th:text="${order.code}"></td>
+				      <td th:text="${#calendars.format(order.createDate,'yyyy-MM-dd')}"></td>
+				      <td th:text="${order.plate_num}"></td>
+				      <td th:text="${order.park_name}"></td>
+				      <td th:text="${order.price}"></td>
+				      <td th:text="${order.total}"></td>
+				      <td>
+				      	<span th:if="${order.status==0}" style="color: red">待付款</span>
+				      	<span th:if="${order.status==1}" style="color: #00b050;">订单完成</span>
+				      </td>
+				      <td>
+						  <!--<a >-->
+
+							  <!--<img src="/moban/images/weicon.jpg">-->
+						  <!--</a>-->
+				      	<a class="weixin" href="javascript:" th:if="${order.status==0}"  th:href="@{'/order/jiesuan?id='+${order.id}}">结算</a>
+				      	<a th:if="${order.status==1}"  th:href="@{'/order/jiesuan?id='+${order.id}}">删除</a>
+				      </td>
+			        </tr>
+				</tbody>
+			</table>
+
+			</div>
+
+			<div align="center">
+				<a  href="/car/detail2" class="pay">前往导航</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<span th:replace="/common/foot :: footer"></span>
+</body>
+</html>

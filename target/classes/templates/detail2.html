@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/moban/css/index.css}"/>
+	<link rel="stylesheet" th:href="@{/moban/css/table.css}"/>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+	<script th:src="@{/moban/js/jquery-1.7.2.min.js}"></script>
+	<script th:src="@{/moban/js/main.js}"></script>
+	<script type="text/javascript" th:src="@{/lib/My97DatePicker/4.8/WdatePicker.js}"></script>
+	<title>驾车导航</title>
+	<style type="text/css">
+		#allmap {height: 400px;width:100%;overflow: hidden;}
+		#result {width:100%;font-size:12px;}
+		.BMap_cpyCtrl
+		{
+			display:none;
+		}
+		.anchorBL{
+			display:none;
+		}
+	</style>
+</head>
+<body >
+
+<span th:replace="/common/head2 :: header"></span>
+
+<div class="main">
+	<div class="container clearfix">
+		<div class="bread">当前位置：
+			<a href="/index">首页</a> >
+			<a href="#">驾车导航</a>
+		</div>
+		<div class="main-left fl " >
+			<div class="zoom-wrap fl" style="width: 570px">
+				<div id="allmap">	
+				</div>
+			</div>
+			<div class="attr fl" style="width:400px"  id="result">
+
+			</div>
+		</div>
+
+	</div>
+	<a href="/car/detail">结算</a>
+</div>
+
+<span th:replace="/common/foot :: footer"></span>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=42b8ececa9cd6fe72ae4cddd77c0da5d"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+	
+<script type="text/javascript">
+
+function getCookie(name)
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+
+    if(arr=document.cookie.match(reg))
+
+        return unescape(arr[2]);
+    else
+        return null;
+}
+
+
+    var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.331398,39.897445);
+
+
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);//添加显示用户位置的 标志
+
+			point = new BMap.Point(r.point.lng,r.point.lat)
+
+            map.centerAndZoom(point,15);//创建以该经纬度为中心的地图
+            map.setMapStyle({style:'hardedge'});
+
+            var traffic = new BMap.TrafficLayer();        // 创建交通流量图层实例
+            map.addTileLayer(traffic);
+
+            var p2 = new BMap.Point(getCookie("lng"),getCookie("lat"));
+
+            var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, panel: "result", autoViewport: true}});
+
+            driving.search(point, p2);
+		}
+		else {
+            map.centerAndZoom(point,15);
+			alert('failed'+this.getStatus());
+		}
+	},{enableHighAccuracy: true})
+</script>
+</body>
+</html>

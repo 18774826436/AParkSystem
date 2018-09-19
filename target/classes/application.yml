@@ -1,0 +1,23 @@
+#数据库连接
+spring:
+    messages:
+        encoding:GB2312
+        cache-seconds:1
+        basename:message
+    thymeleaf: 
+        cache: false
+        prefix: classpath:/templates/
+        suffix: .html
+        encoding: UTF-8
+        content-type: text/html
+        mode: LEGACYHTML5
+    datasource: 
+        url: jdbc:mysql://localhost:3306/reserve?characterEncoding=utf8&useSSL=true
+        username: xiaoma
+        password: 123456
+        driver-class-name: com.mysql.jdbc.Driver
+#服务器端口reserve?characterEncoding=utf8&useSSL=true
+#reserve
+server: 
+  port: 8080
+  
